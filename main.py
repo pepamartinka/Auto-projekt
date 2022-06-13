@@ -7,8 +7,8 @@ pin_R = DigitalPin.P15
 
 rightmotor = PCAmotor.Motors.M1
 leftmotor = PCAmotor.Motors.M2
-x=75
-y=x+11
+x=200
+y=x+30
 
 def on_forever():
     global x,y
@@ -20,36 +20,31 @@ def on_forever():
     if read_R==0 and read_L==0:
         PCAmotor.motor_run(leftmotor, x)
         PCAmotor.motor_run(rightmotor, y)
-    
+
+    if read_R==1 and read_L==1:
+        PCAmotor.motor_run(leftmotor, x)
+        PCAmotor.motor_run(rightmotor, y)  
+        
     if read_L==1 and read_R==0:
 
-        PCAmotor.motor_run(leftmotor,50)
-        PCAmotor.motor_run(rightmotor,80)      
-
+        PCAmotor.motor_run(leftmotor,38)
+        PCAmotor.motor_run(rightmotor,125) 
+          
     if read_L==0 and read_R==1:
-        PCAmotor.motor_run(leftmotor,89)
-        PCAmotor.motor_run(rightmotor,57)
- 
-basic.forever(on_forever)
-
-
-
-
-def manual():
-    if uartdata == '0':
-        PCAmotor.motor_stop_all()
-    if uartdata == 'A':
-        PCAmotor.motor_run(PCAmotor.Motors.M2, 255)
-        PCAmotor.motor_run(PCAmotor.Motors.M1, 255)
-    if uartdata == "B":
-        PCAmotor.motor_run(PCAmotor.Motors.M2, -255)
-        PCAmotor.motor_run(PCAmotor.Motors.M1, -255)
-    if uartdata == "D":
-        PCAmotor.motor_run(PCAmotor.Motors.M2, 255)
-        PCAmotor.motor_run(PCAmotor.Motors.M1, 50)
-    if uartdata == "C":
-        PCAmotor.motor_run(PCAmotor.Motors.M2, 50)
-        PCAmotor.motor_run(PCAmotor.Motors.M1, 255)
+        PCAmotor.motor_run(leftmotor,120)
+        PCAmotor.motor_run(rightmotor,38)
+        
+forever(on_forever)
+#         PCAmotor.motor_run(PCAmotor.Motors.M1, 255)
+#     if uartdata == "B":
+#         PCAmotor.motor_run(PCAmotor.Motors.M2, -255)
+#         PCAmotor.motor_run(PCAmotor.Motors.M1, -255)
+#     if uartdata == "D":
+#         PCAmotor.motor_run(PCAmotor.Motors.M2, 255)
+#         PCAmotor.motor_run(PCAmotor.Motors.M1, 50)
+#     if uartdata == "C":
+#         PCAmotor.motor_run(PCAmotor.Motors.M2, 50)
+#         PCAmotor.motor_run(PCAmotor.Motors.M1, 255)
 
 # def on_bluetooth_connected():
 #     global connected, uartdata
@@ -63,3 +58,4 @@ def manual():
 #     global connected
 #     connected = 0
 # bluetooth.on_bluetooth_disconnected(on_bluetooth_disconnected)
+
