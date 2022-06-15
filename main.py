@@ -10,14 +10,15 @@ leftmotor = PCAmotor.Motors.M2
 x=200
 y=x+30
 
-#přepíná automaticpomoc 
-def on_button_pressed_a():
-    global automaticpomoc
-    if automaticpomoc==0:
-        automaticpomoc=1
-    else:
-        automaticpomoc=0
+#když budem chtít ten mód s možností odbočit tak 
+#                     nejdřív musíme připojit bluetooth a až pak stisknoout A a změnit do toho modu
 
+def on_button_pressed_a():
+    global connected
+    if connected != 2:
+        connected=2
+    else: connected = 0
+input.on_button_pressed(Button.A, on_button_pressed_a)
 
 
 #AUTOMATICKY
@@ -90,11 +91,11 @@ while connected==3:
         PCAmotor.motor_run(leftmotor,50)
         PCAmotor.motor_run(rightmotor,50)
 
-    if uartdata == 'A':
+    if uartdata == 'B':
         PCAmotor.motor_run(leftmotor,50)
         PCAmotor.motor_run(rightmotor,-50)
 
-    if uartdata == 'B':
+    if uartdata == 'C':
         PCAmotor.motor_run(rightmotor,50)
         PCAmotor.motor_run(leftmotor,-50)
 
