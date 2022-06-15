@@ -44,10 +44,8 @@ while connected ==0:
         PCAmotor.motor_run(leftmotor,120)
         PCAmotor.motor_run(rightmotor,38)
 
-#MANUALNĚ bez pomoci pokud automaticpomoc==0
+#MANUALNĚ
 while connected==1:
-    if automaticpomoc==0:
-
         if uartdata == '0':
             PCAmotor.motor_stop_all()
         if uartdata == 'A':
@@ -62,8 +60,9 @@ while connected==1:
         if uartdata == "C":
             PCAmotor.motor_run(PCAmotor.Motors.M2, 50)
             PCAmotor.motor_run(PCAmotor.Motors.M1, 255)
-#MANUALNĚ s pomocí (stejný jako automaticky ale když sníma obě černý tak zastaví a podle uartdata odbočí)
-    else:        
+
+
+while connected==2: 
             pins.set_pull(pin_R, PinPullMode.PULL_NONE)
             read_R = pins.digital_read_pin(pin_R)
             pins.set_pull(pin_L, PinPullMode.PULL_NONE)
@@ -74,18 +73,9 @@ while connected==1:
                 PCAmotor.motor_run(rightmotor, y)
         
             if read_R==1 and read_L==1:
-                PCAmotor.motor_stop_all()
-                if uartdata == "A":
-                        #rovně
-                        PCAmotor.motor_run(rightmotor, 100)
-                        PCAmotor.motor_run(leftmotor, 100)
-                if uartdata == "B":
-                        #doprava
-                        PCAmotor.motor_run(leftmotor, 70)
-                if uartdata == "C":
-                        #doleva
-                        PCAmotor.motor_run(rightmotor, 70)              
-                
+                connected=3
+                #přepne se do connected3
+
             if read_L==1 and read_R==0:
         
                 PCAmotor.motor_run(leftmotor,38)
@@ -94,6 +84,25 @@ while connected==1:
             if read_L==0 and read_R==1:
                 PCAmotor.motor_run(leftmotor,120)
                 PCAmotor.motor_run(rightmotor,38)
+while connected==3:
+    #vybereš co to má udělat
+    if uartdata == 'A':
+        PCAmotor.motor_run(leftmotor,50)
+        PCAmotor.motor_run(rightmotor,50)
+
+    if uartdata == 'A':
+        PCAmotor.motor_run(leftmotor,50)
+        PCAmotor.motor_run(rightmotor,-50)
+
+    if uartdata == 'B':
+        PCAmotor.motor_run(rightmotor,50)
+        PCAmotor.motor_run(leftmotor,-50)
+
+    basic.pause(100) #pauza=čas za kterou se s určitou rychlostí auto otočí o 90stupnu
+
+    PCAmotor.motor_stop_all()
+    connected=2
+    #vrátí se do connected2
 
 def on_bluetooth_connected():
     global connected, uartdata
